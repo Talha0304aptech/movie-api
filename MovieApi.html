@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie API</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+    <div class="main">
+
+        <h1 class="animate animated fadeInDown h1 text-center mt-5">Movie Name</h1>
+        <div class="container w-100 m-auto" style="z-index: 1000;">
+            <input type="text" id="input" placeholder="Search Movie..." autocomplete="off">
+            <br>
+            <a class="" onclick="getMovie()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Search
+            </a>
+        </div>
+        <div id="moviedetails">
+        </div>
+    </div>
+
+   
+    
+
+    <script>
+
+        function getMovie()
+        {
+              var searchTerm = document.getElementById('input').value;
+              fetch(`http://www.omdbapi.com/?t=${searchTerm}&apikey=d5b8d17a`)
+              .then(response => response.json())
+              .then(data =>
+              {
+                var {Title, Poster, Runtime, Director, Released, Genre, Plot} = data;
+                document.getElementById('moviedetails').innerHTML = 
+                `
+        <div class="movie_card" id="bright">
+        <div class="info_section">
+            <div class="movie_header">
+                <img src="${Poster}" alt="" class="picture">
+                <h1>${Title}</h1>
+                <h4>${Released},${Director}</h4>
+                <span class="minute">${Runtime}</span>
+                <p class="type">${Genre}</p>
+            </div>
+            <div class="movie_desc">
+                <p class="text">${Plot}</p>
+            </div>
+        </div>
+        <div class="blur_back" style="background: url(${Poster});"></div>
+    </div>
+                `;
+              })
+        }
+
+    </script>
+
+</body>
+</html>
